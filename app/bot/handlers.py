@@ -66,7 +66,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     """Process incoming text messages based on the user's current state."""
 
-    text = update.message.text.strip()
+    text = (update.message.text or "").strip()
     user_id = update.message.from_user.id
     state = get_user_state(user_id)
 
