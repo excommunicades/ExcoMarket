@@ -1,0 +1,42 @@
+tags:
+  - Auth
+summary: Refresh JWT access token
+description: Accepts a refresh token and returns a new access token.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          refresh_token:
+            type: string
+        required:
+          - refresh_token
+      example:
+        refresh_token: "eyJ0eXAiOiJKV1QiLCJhbGciOi..."
+responses:
+  200:
+    description: Token refreshed successfully
+    content:
+      application/json:
+        example:
+          access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOi..."
+  400:
+    description: Missing or invalid refresh token
+    content:
+      application/json:
+        example:
+          error: refresh_token is required
+  401:
+    description: Invalid or expired token
+    content:
+      application/json:
+        example:
+          error: Refresh token expired
+  404:
+    description: User not found
+    content:
+      application/json:
+        example:
+          error: User with this token not found

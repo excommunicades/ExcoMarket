@@ -1,0 +1,51 @@
+tags:
+  - Profile
+summary: Get user profile with their active products
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: User profile with active products
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            nickname:
+              type: string
+              minLength: 3
+              maxLength: 64
+            email:
+              type: string
+              format: email
+            wallet:
+              type: number
+              format: float
+            active_products:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                    minLength: 1
+                    maxLength: 255
+                  price:
+                    type: number
+                    format: float
+                  is_sold:
+                    type: boolean
+  404:
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: User not found

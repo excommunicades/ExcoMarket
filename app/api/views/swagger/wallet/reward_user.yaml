@@ -1,0 +1,44 @@
+tags:
+  - Wallet
+summary: Reward the authenticated user
+description: Adds 500 coins to the authenticated user's wallet balance.
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: Reward applied successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: You have been rewarded with 500 coins!
+            new_balance:
+              type: number
+              format: float
+              example: 1500.0
+  404:
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: User not found
+  500:
+    description: Failed to reward user
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: Failed to reward user
+            details:
+              type: string
+              example: Database commit error details

@@ -1,0 +1,37 @@
+tags:
+  - Products
+summary: Get product details by ID
+parameters:
+  - name: product_id
+    in: path
+    required: true
+    schema:
+      type: integer
+responses:
+  200:
+    description: Product details
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            price:
+              type: number
+              format: float
+            description:
+              type: string
+            is_sold:
+              type: boolean
+            seller:
+              type: object
+              properties:
+                id:
+                  type: integer
+                nickname:
+                  type: string
+  404:
+    description: Product not found

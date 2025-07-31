@@ -1,0 +1,23 @@
+tags:
+  - Products
+summary: Get all available (unsold) products
+responses:
+  200:
+    description: List of products
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  price:
+                    type: number
+                    format: float

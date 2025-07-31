@@ -1,0 +1,54 @@
+tags:
+  - Subscription
+summary: Subscribe to a seller
+description: Subscribe the authenticated user to another seller.
+parameters:
+  - name: seller_id
+    in: path
+    required: true
+    description: ID of the seller to subscribe to
+    schema:
+      type: integer
+security:
+  - bearerAuth: []
+responses:
+  201:
+    description: Subscribed successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Subscribed successfully
+  200:
+    description: Already subscribed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Already subscribed
+  400:
+    description: Invalid subscription attempt (e.g. subscribe to yourself)
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: You cannot subscribe to yourself
+  404:
+    description: Seller not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: Seller not found

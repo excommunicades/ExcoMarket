@@ -1,0 +1,44 @@
+---
+tags:
+  - Manage
+
+summary: Create 50 random products for the authenticated user
+description: Creates 50 random products assigned to the currently authenticated user. No request body required.
+
+security:
+  - bearerAuth: []
+
+responses:
+  '201':
+    description: Products created successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "50 products created successfully."
+  '404':
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "User not found"
+  '500':
+    description: Failed to create products
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Failed to create products"
+            details:
+              type: string
+              example: "Database error details"

@@ -1,0 +1,14 @@
+*.log
+.venv/
+venv/
+.env/
+*.env
+__pycache__/
+.env.local
+.vscode/
+.idea/
+migrations/*.pyc
+migrations/__pycache__/
+.python-version
+pyproject.toml
+uv.lock

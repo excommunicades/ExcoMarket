@@ -1,0 +1,19 @@
+tags:
+  - Manage
+summary: Check database connection status
+description: Returns status information about the application's ability to connect to the database.
+responses:
+  200:
+    description: Database connection successful
+    content:
+      application/json:
+        example:
+          status: "ok"
+          message: "Database connected successfully"
+  500:
+    description: Database connection failed
+    content:
+      application/json:
+        example:
+          status: "error"
+          message: "Could not connect to the database"

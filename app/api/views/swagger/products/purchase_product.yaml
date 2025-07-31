@@ -1,0 +1,20 @@
+tags:
+  - Products
+summary: Purchase a product by ID
+security:
+  - bearerAuth: []
+parameters:
+  - name: product_id
+    in: path
+    required: true
+    schema:
+      type: integer
+responses:
+  200:
+    description: Purchase successful
+  400:
+    description: Bad request (e.g. insufficient funds, seller cannot buy own product)
+  404:
+    description: Product or buyer/seller not found
+  500:
+    description: Transaction failed

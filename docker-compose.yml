@@ -1,0 +1,122 @@
+services:
+  mysql:
+    image: mysql
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  chroma:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/data
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./models:/root/.ollama/models
+    command: serve
+    restart: unless-stopped
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+      chroma:
+        condition: service_started
+      index_chromadb:
+        condition: service_started
+      redis:
+        condition: service_started
+
+  consumer:
+    build: .
+    command: python3 run_consumer.py
+    working_dir: /app/app
+    environment:
+      - PYTHONPATH=/app/app
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      mysql:
+        condition: service_started
+      web:
+        condition: service_started
+
+  bot:
+    build: .
+    command: python3 run_bot.py
+    working_dir: /app/app
+    environment:
+      - PYTHONPATH=/app/app
+    depends_on:
+      - consumer
+      - rabbitmq
+      - redis
+      - web
+
+  index_chromadb:
+    build: .
+    command: python3 run_chroma.py
+    working_dir: /app/app
+    environment:
+      - PYTHONPATH=/app/app
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      chroma:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      redis:
+        condition: service_started
+
+volumes:
+  mysql_data:
+  chroma_data:

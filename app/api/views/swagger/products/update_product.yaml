@@ -1,0 +1,57 @@
+tags:
+  - Products
+summary: Update product by ID
+security:
+  - bearerAuth: []
+parameters:
+  - name: product_id
+    in: path
+    required: true
+    schema:
+      type: integer
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            minLength: 1
+            maxLength: 128
+          price:
+            type: number
+            format: float
+            minimum: 0.01
+          description:
+            type: string
+        # Все поля опциональны
+responses:
+  200:
+    description: Product updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            price:
+              type: number
+              format: float
+            description:
+              type: string
+              nullable: true
+            seller_id:
+              type: integer
+            is_sold:
+              type: boolean
+  400:
+    description: Validation error
+  403:
+    description: Forbidden (not product seller)
+  404:
+    description: Product not found

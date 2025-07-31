@@ -1,0 +1,34 @@
+tags:
+  - Subscription
+summary: Unsubscribe from a seller
+description: Unsubscribe the authenticated user from a seller.
+parameters:
+  - name: seller_id
+    in: path
+    required: true
+    description: ID of the seller to unsubscribe from
+    schema:
+      type: integer
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: Unsubscribed successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Unsubscribed successfully
+  404:
+    description: Subscription not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: Subscription not found

@@ -1,0 +1,56 @@
+tags:
+  - Auth
+summary: Register a new user
+description: Creates a new user account with a unique email and nickname.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          nickname:
+            type: string
+            minLength: 3
+            maxLength: 64
+          email:
+            type: string
+            format: email
+          password:
+            type: string
+            minLength: 8
+            maxLength: 128
+          confirm_password:
+            type: string
+        required:
+          - nickname
+          - email
+          - password
+          - confirm_password
+      example:
+        nickname: "john_doe"
+        email: "john@example.com"
+        password: "StrongPass123"
+        confirm_password: "StrongPass123"
+responses:
+  201:
+    description: User registered successfully
+    content:
+      application/json:
+        example:
+          message: Registration successful
+  400:
+    description: Validation error or bad request
+    content:
+      application/json:
+        example:
+          errors:
+            - loc: ["password"]
+              msg: "Passwords do not match"
+              type: "value_error"
+  409:
+    description: Conflict - user already exists
+    content:
+      application/json:
+        example:
+          error: Email or nickname already exists

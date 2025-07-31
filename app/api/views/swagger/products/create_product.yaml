@@ -1,0 +1,53 @@
+tags:
+  - Products
+summary: Create a new product
+description: Create a new product associated with the authenticated user.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            minLength: 1
+            maxLength: 128
+          price:
+            type: number
+            format: float
+            minimum: 0.01
+          description:
+            type: string
+            nullable: true
+        required:
+          - name
+          - price
+responses:
+  201:
+    description: Product created successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            price:
+              type: number
+              format: float
+            description:
+              type: string
+              nullable: true
+            seller_id:
+              type: integer
+            is_sold:
+              type: boolean
+  400:
+    description: Validation error
+  404:
+    description: Seller not found

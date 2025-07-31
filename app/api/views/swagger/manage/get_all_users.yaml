@@ -1,0 +1,39 @@
+tags:
+  - Manage
+summary: Get all users
+description: Retrieve a list of all registered users.
+responses:
+  200:
+    description: A list of users
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  nickname:
+                    type: string
+                    example: johndoe
+                  email:
+                    type: string
+                    example: johndoe@example.com
+  500:
+    description: Server error while fetching users
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: Failed to fetch users
+            details:
+              type: string
+              example: Database connection failed

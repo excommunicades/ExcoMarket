@@ -1,0 +1,44 @@
+tags:
+  - Wallet
+summary: Reset the authenticated user's wallet balance to zero
+description: Clears all money in the authenticated user's wallet.
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: Wallet cleared successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Your money has been reset to zero.
+            new_balance:
+              type: number
+              format: float
+              example: 0.0
+  404:
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: User not found
+  500:
+    description: Failed to clear money
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: Failed to clear money
+            details:
+              type: string
+              example: Database commit error details
